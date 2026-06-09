@@ -1,5 +1,8 @@
 package com.francisco.user_service.dto;
+import java.util.UUID;
 
-public record UserResponse() {
-
-}
+public record UserResponse(
+    UUID id,
+    String email
+) 
+{}

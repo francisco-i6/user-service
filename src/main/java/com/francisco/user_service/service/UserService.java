@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.francisco.user_service.entity.User;
 import com.francisco.user_service.repository.UserRepository;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -18,10 +20,22 @@ public class UserService {
     public User createUser(String email, String password){
         User user = new User();
         user.setEmail(email);
-        user.setPassword(password
-
+        user.setPassword(passwordEncoder.encode(password));
+        return userRepository.save(user);
     }
     
+    public Optional<User> getUserById(UUID id){
+        return userRepository.findById(id);
+    }
+    public Optional<User> getUserByEmail(String email){
+        return userRepository.findByEmail(email);
+
+    }
+    public void deleteUser(UUID id){
+        userRepository.deleteById(id);
+
+
+    }
 
 
 }
