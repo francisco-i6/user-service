@@ -2,8 +2,10 @@ package com.francisco.user_service.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.francisco.user_service.dto.LoginRequest;
 import com.francisco.user_service.dto.UserRequest;
 import com.francisco.user_service.dto.UserResponse;
+import com.francisco.user_service.entity.User;
 import com.francisco.user_service.service.UserService;
 
 import jakarta.validation.Valid;
@@ -29,8 +31,18 @@ public class UserController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse register(@Valid @RequestBody UserRequest request) {
-        return userService.createUser(request);
+        User savedUser = userService.createUser(request);
+        return new UserResponse(savedUser.getId(), savedUser.getEmail());
     }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponse login(@Valid @RequestBody LoginRequest request) {
+        User verifiedUser = userService.verifyUser(request);
+        return new UserResponse(verifiedUser.getId(), verifiedUser.getEmail());
+    }
+    
+    
     
    
 }
